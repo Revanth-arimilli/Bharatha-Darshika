@@ -1,0 +1,39 @@
+<?php
+// Include database connection file
+include 'db.php';
+
+// Fetch places from the database
+$query = "SELECT * FROM places";  // Make sure this query is correct
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn)); // Debugging output
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tourist Places</title>
+</head>
+<body>
+
+<h2>Tourist Places</h2>
+
+<ul>
+    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <li>
+            <h3><?= htmlspecialchars($row['name']) ?></h3>
+            <p><?= htmlspecialchars($row['description']) ?></p>
+            <p><strong>Location:</strong> <?= htmlspecialchars($row['location']) ?></p>
+            <p><strong>Staying Options:</strong> <?= htmlspecialchars($row['staying_options']) ?></p>
+            <p><strong>Nearby Places:</strong> <?= htmlspecialchars($row['nearby_places']) ?></p>
+            <p><strong>Hotels:</strong> <?= htmlspecialchars($row['hotels']) ?></p>
+            <p><a href="<?= htmlspecialchars($row['website_link']) ?>" target="_blank">Official Website</a></p>
+            <img src="images/<?= htmlspecialchars($row['image']) ?>" width="200">
+        </li>
+    <?php } ?>
+</ul>
+
+</body>
+</html>
